@@ -1,10 +1,12 @@
 import random as rand
+import math
 
 particles = [] #list of particle objects
 p_positions = [] #list of particle positions - updated using position_update() - needs cleared before calling function
 p_velocities = [] #list of particle velocities - updated using velocity_update() - needs cleared before calling function
 
 delt_t = 0.1 #change in time (seconds)
+radius = 3
 
 Particle_info = {"H" : (1.008, 1930),
                  "He" : (4, 1352),
@@ -35,6 +37,20 @@ class Particle:
         self.position = (self.new_x, self.new_y)
         p_positions.append(self.position)
 
+    def collision(self):
+        global particles, radius
+
+        for particle2 in particles:
+            if self != particle2:
+
+                dx = self.position[0] - particle2.position[0]
+                dy = self.position[1] - particle2.position[1]
+                distance = (math.sqrt((dx**2)+(dy**2)))
+
+                if distance <= radius:
+                    self.velocity = (-(self.velocity[0]), -(self.velocity[1]))
+                    particle2.velocity = (-(particle2.velocity[0]), -(particle2.velocity[1]))
+    
     def change_velocity(self):
         new_velocity = (-(self.velocity[0]), -(self.velocity[1]))
 
@@ -63,4 +79,5 @@ def actions():
     for particle in particles:
         particle.position_update() #appends new position to p_positions
         particle.change_velocity()
+        particle.collision()
         # particle.velocity_update() #appends new velocities to p_velocities

@@ -13,10 +13,7 @@ def run(somethingUnknown):
     
     pcl.actions()
     disp.data_update()
-
-    #print("x positions:" + str(disp.x[0]))
-    #print("y positions:" + str(disp.y[0]))
-
+    
     ax.clear()
 
     ax.set_xlim(0, 100)
