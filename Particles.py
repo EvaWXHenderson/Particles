@@ -31,10 +31,18 @@ class Particle:
     def position_update(self, t = delt_t):
         self.new_x = self.position[0] + self.velocity[0] * t
         self.new_y = self.position[1] + self.velocity[1] * t
-
         
         self.position = (self.new_x, self.new_y)
         p_positions.append(self.position)
+
+    def change_velocity(self):
+        new_velocity = (-(self.velocity[0]), -(self.velocity[1]))
+
+        if self.new_x > 100 or self.new_y > 100:
+            self.velocity = new_velocity
+
+        if self.new_x < 0 or self.new_y < 0:
+            self.velocity = new_velocity
 
     def velocity_update(self, t = delt_t):
         self.new_velocity = self.velocity + (self.acceleration * t)
@@ -54,4 +62,5 @@ def actions():
 
     for particle in particles:
         particle.position_update() #appends new position to p_positions
+        particle.change_velocity()
         # particle.velocity_update() #appends new velocities to p_velocities

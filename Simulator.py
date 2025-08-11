@@ -18,10 +18,14 @@ def run(somethingUnknown):
     #print("y positions:" + str(disp.y[0]))
 
     ax.clear()
+
+    ax.set_xlim(0, 100)
+    ax.set_ylim(0, 100)
+    ax.set_xticks([])
+    ax.set_yticks([])
+
     ax.scatter(disp.x, disp.y, c = "black")
     return ax
 
-anim = FuncAnimation(fig, run, interval = 100)
-plt.xticks([]) 
-plt.yticks([])
+anim = FuncAnimation(fig, run, frames = 100, interval = 10)
 plt.show()
