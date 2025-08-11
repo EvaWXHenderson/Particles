@@ -1,10 +1,10 @@
 import random as rand
 
-particles = []
-p_positions = []
-p_velocities = []
+particles = [] #list of particle objects
+p_positions = [] #list of particle positions - updated using position_update() - needs cleared before calling function
+p_velocities = [] #list of particle velocities - updated using velocity_update() - needs cleared before calling function
 
-delt_t = 0.001 #change in time (seconds)
+delt_t = 0.1 #change in time (seconds)
 
 Particle_info = {"H" : (1.008, 1930),
                  "He" : (4, 1352),
@@ -12,14 +12,14 @@ Particle_info = {"H" : (1.008, 1930),
 
 class Particle:
     def __init__(self):
-        self.position_x = rand.randint(1, 100)
-        self.position_y = rand.randint(1, 100)
-        self.position = (self.position_x, self.position_y)
+        position_x = rand.randint(1, 100)
+        position_y = rand.randint(1, 100)
+        self.position = (position_x, position_y)
 
-        p_positions.append((self.position_x, self.position_y))
+        p_positions.append(self.position)
 
         self.mass = 1.008 #mass hydrogen (amu)
-        self.velocity = 1.93 #RMS velocity (m/delt_t)
+        self.velocity = (rand.randint(-4, 4), rand.randint(-4, 4)) #RMS velocity (m/delt_t)
 
         p_velocities.append(self.velocity)
 
@@ -29,8 +29,9 @@ class Particle:
         particles.append(self)
 
     def position_update(self, t = delt_t):
-        self.new_x = self.position_x + self.velocity * t
-        self.new_y = self.position_y + self.velocity * t
+        self.new_x = self.position[0] + self.velocity[0] * t
+        self.new_y = self.position[1] + self.velocity[1] * t
+
         
         self.position = (self.new_x, self.new_y)
         p_positions.append(self.position)
@@ -45,12 +46,12 @@ def create_particles(number = 15):
     for particles in range(number):
         Particle()
 
-def interval_actions():
-    global particles
+def actions():
+    global p_positions, p_velocities, particles
 
     p_positions = []
     p_velocities = []
 
     for particle in particles:
         particle.position_update() #appends new position to p_positions
-        particle.velocity_update() #appends new velocities to p_velocities
+        # particle.velocity_update() #appends new velocities to p_velocities
