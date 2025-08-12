@@ -1,5 +1,5 @@
-import Display as disp
-import Decceleration_Gravity.Gravity_decceleration as pcl
+import Display_G as disp
+import Gravity_deceleration as pcl
 import matplotlib.pyplot as plt
 
 from matplotlib.animation import FuncAnimation

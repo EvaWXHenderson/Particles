@@ -1,7 +1,5 @@
 import matplotlib.pyplot as plt
-import Decceleration_Gravity.Gravity_decceleration as pcl
-
-import matplotlib.pyplot as plt
+import Gravity_deceleration as pcl
 
 x = []
 y = []
