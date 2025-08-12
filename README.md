@@ -3,14 +3,25 @@ An attempt at simulating particles and their interactions, displayed to indicate
 
 Utilises root-mean-square (RMS) velocities and masses in amu.
 
-## Particles.py
+## Main
+### Particles.py
 Contains Particle class and functions for updating of particle positions/velocities/accleration.
 
-## Display.py
+### Display.py
 Contains functions and info for the display of information/movement of particles.
 
-## Simulator.py
+### Simulator.py
 Used to run program.
 
-### Sources:
+## Decceleration
+Currently the only complete section of the project. Contains files for running a simulation where particles are made to bounce and decelerate with gravity.
+
+<video src="https://github.com/EvaWXHenderson/Particles/blob/main/Deceleration_Gravity/recording/Screen%20Recording%202025-08-12%20at%2016.08.11.mov" width=180 />
+  
+Contains:
+gravity_deceleration.py - main file    
+display_g - file for functions relating to the display    
+sim_g - file for running program
+
+## Sources:
 Sebastian Lague (2025), Coding Adventure: Simulating Fluids. Youtube. Available at: https://youtu.be/rSKMYc1CQHE?si=o2x4cRYxyq534Sty [Accessed 1 Aug. 2025]
