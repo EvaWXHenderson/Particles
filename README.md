@@ -16,12 +16,12 @@ Used to run program.
 ## Decceleration
 Currently the only complete section of the project. Contains files for running a simulation where particles are made to bounce and decelerate with gravity.
 
-<video src="https://github.com/EvaWXHenderson/Particles/blob/main/Deceleration_Gravity/recording/Screen%20Recording%202025-08-12%20at%2016.08.11.mov" width=180 />
-  
-Contains:
-gravity_deceleration.py - main file    
-display_g - file for functions relating to the display    
-sim_g - file for running program
+https://github.com/user-attachments/assets/603c88bb-adf8-4a6b-852e-31ebded9f473
+
+**Contains**:    
+Gravity_Deceleration.py - main file    
+Display_G - file for functions relating to the display    
+Sim - file for running program
 
 ## Sources:
 Sebastian Lague (2025), Coding Adventure: Simulating Fluids. Youtube. Available at: https://youtu.be/rSKMYc1CQHE?si=o2x4cRYxyq534Sty [Accessed 1 Aug. 2025]
