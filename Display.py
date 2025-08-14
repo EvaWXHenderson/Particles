@@ -1,8 +1,6 @@
 import matplotlib.pyplot as plt
 import Particles as pcl
 
-import matplotlib.pyplot as plt
-
 x = []
 y = []
 
@@ -26,5 +24,14 @@ def data_update():
     clear() # x and y now back to empty lists to be re-updated with new coordinates.
     coord_update()
 
+def print_positions():
+    for particle in pcl.particles:
+        print("Position:" + str(particle.position))
 
-        
+def print_forces():
+    for particle in pcl.particles:
+        print("Result of Lennard-Jones force calculations:" + str(particle.forces))
+
+def print_acceleration():
+    for particle in pcl.particles:
+        print("Acceleration with format (acceleration in x, acceleration in y):" + str(particle.acceleration))    

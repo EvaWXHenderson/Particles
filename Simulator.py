@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt
 
-disp.initialise_data(15)
+disp.initialise_data(5)
 
 fig, ax = plt.subplots()
 
@@ -26,3 +26,7 @@ def run(somethingUnknown):
 
 anim = FuncAnimation(fig, run, frames = 100, interval = 10)
 plt.show()
+
+#disp.print_positions()
+#disp.print_forces()
+#disp.print_acceleration()
