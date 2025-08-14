@@ -13,7 +13,7 @@ Particle mass can be changed to emulate specific elements by changing *self.mass
 ## Display.py
 Contains functions and info for the display of information/movement of particles.
 
-## Simulator.py
+### Simulator.py
 Used to run program.
 
 ### Sources:
