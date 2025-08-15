@@ -7,16 +7,16 @@ p_positions = [] #list of particle positions - updated using position_update() -
 p_velocities = [] #list of particle velocities - updated using velocity_update() - needs cleared before calling function
 
 delt_t = 0.1 #change in time (seconds)
-radius = 3
+#radius = 3 #(angstroms(A))
 
-sigma = 3
-epsilon = 5
+sigma = 2 #(angstroms(A))
+epsilon = 4.98*10**(-23) #Joules
 
-"""Particle Info Dict Format: "Element Symbol": (mass(amu),... )"""
+"""Particle Info Dict Format: "Element Symbol": (mass(kg),... )"""
 
-Particle_info = {"H" : [1.008],
-                 "He" : [4],
-                 "Cl" : [35.453]}
+Particle_info = {"H" : [1.67*10**(-27)],
+                 "He" : [6.646*10**(-27)],
+                 "Cl" : [10**(-25)]}
 
 class Particle:
     def __init__(self):
@@ -26,17 +26,20 @@ class Particle:
 
         p_positions.append(self.position)
 
-        self.mass = 1.008 #mass hydrogen (amu)
-        self.velocity = (rand.randint(-4, 4), rand.randint(-4, 4)) #RMS velocity (m/delt_t)
+        self.mass = 1.67*10**(-27) #mass hydrogen (kg)
+        self.velocity = (rand.randint(-4, 4), rand.randint(-4, 4)) #velocity (A/delt_t)
 
         p_velocities.append(self.velocity)
 
-        self.acceleration = (0, 0)
-        self.velocity_damp = ""
+        self.acceleration = (0,0)
+
+        self.potentials = (0,0) #Joules
 
         self.F_x = 0
         self.F_y = 0
-        self.forces = []
+        self.forces = [] #Newtons
+        self.forces_print = (0,0) #only needed if trying to check force values
+        self.accelerations_print = [] #only needed if trying to check all acceleration values
 
         self.distances_x = []
         self.distances_y = []
@@ -85,20 +88,23 @@ class Particle:
             self.position = (self.position[0], 0)
             self.velocity = new_velocity_y           
 
-    def change_velocity(self, t = delt_t):
-        new_velocity_x = self.velocity[0] + (self.acceleration[0] * t)
-        new_velocity_y = self.velocity[1] + (self.acceleration[1] * t)
-        
-        self.velocity = (new_velocity_x, new_velocity_y)
-        p_velocities.append(self.velocity)
+    def lj_potential(self, e = epsilon, s = sigma):
+        for particle2 in particles:
+            if self != particle2:
+                dx = self.position[0] - particle2.position[0]
+                dy = self.position[1] - particle2.position[1]
+    
+        V_x = 4*e*(((s/dx)**12) - ((s/dx)**6))
+        V_y = 4*e*(((s/dy)**12) - ((s/dy)**6))
+
+        self.potentials = (V_x, V_y)
 
     def lj_force(self, e = epsilon, s = sigma):
         global particles, radius
         
         self.forces = []
 
-        self.F_x = 0
-        self.F_y = 0
+
 
         for particle2 in particles:
             if self != particle2:
@@ -118,12 +124,51 @@ class Particle:
                 
                 self.forces.append((F_x, F_y))
 
+        self.F_x = 0
+        self.F_y = 0
+
         for value in self.forces:
             self.F_x += value[0]
             self.F_y += value[1]
+
+        self.forces_print = (self.F_x, self.F_y) #only needed if trying to check force values
             
     def acceleration_calc(self):
-        self.acceleration = (self.F_x/self.mass, self.F_y/self.mass)
+        a_x = self.F_x/self.mass
+        a_y = self.F_y/self.mass
+        self.acceleration = (a_x, a_y) #(N/kg)
+
+        """acceleration cap to avoid knock-on teleporting errors: """
+        if self.acceleration[0] > 10:
+            self.acceleration = (10, a_y)
+        if self.acceleration[0] < -10:
+            self.acceleration = (-10, a_y)
+
+        if self.acceleration[1] > 10:
+            self.acceleration = (a_x, 10)
+        if self.acceleration[1] < -10:
+            self.acceleration = (a_x, -10)
+
+        #self.accelerations.append(self.acceleration_print) #only needed if trying to check all acceleration values
+        
+
+    def change_velocity(self, t = delt_t):
+        new_velocity_x = self.velocity[0] + (self.acceleration[0] * t)
+        new_velocity_y = self.velocity[1] + (self.acceleration[1] * t)
+
+        if new_velocity_x > 10:
+            new_velocity_x = 10
+        if new_velocity_x < -10:
+            new_velocity_x = -10
+
+        if new_velocity_y > 10:
+            new_velocity_y = 10
+        if new_velocity_y  < -10:
+            new_velocity_y  = -10
+        
+        self.velocity = (new_velocity_x, new_velocity_y) # velocity in A/0.1seconds
+        p_velocities.append(self.velocity)
+
 
 
 
@@ -140,8 +185,14 @@ def actions():
 
     for particle in particles:
         particle.position_update() #appends new position to p_positions
+    for particle in particles:
+        particle.lj_potential() #only needed if trying to check potential values
+    for particle in particles:
         particle.lj_force() #calculates forces (repulsive/attractive) for each particle in relation to all other particles
+    for particle in particles:
         particle.acceleration_calc() #calculates the acceleration of a particle in response to inter-particle forces
+    for particle in particles:
         particle.collision_box()
-        particle.collision_particle()
-        #particle.change_velocity() #calculates new velocities based on the updated acceleration
+    for particle in particles:
+        #particle.collision_particle() - SHOULDN'T BE NEEDED BECAUSE OF LENNARD-JONES POTENTIAL CONSIDERATION??? - SHOULD HAVE REPULSION ALREADY AT 3A???
+        particle.change_velocity() #calculates new velocities based on the updated acceleration

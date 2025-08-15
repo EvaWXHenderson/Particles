@@ -30,8 +30,16 @@ def print_positions():
 
 def print_forces():
     for particle in pcl.particles:
-        print("Result of Lennard-Jones force calculations:" + str(particle.forces))
+        print("Lennard-Jones force (N):" + str(particle.forces_print))
 
 def print_acceleration():
     for particle in pcl.particles:
-        print("Acceleration with format (acceleration in x, acceleration in y):" + str(particle.acceleration))    
+        print("Acceleration (N/kg): " + str(particle.acceleration))
+
+def print_potential():
+    for particle in pcl.particles:
+        print("Potentials (J) : " + str(particle.potentials))
+
+def print_velocities():
+    for particle in pcl.particles:
+        print("Velocities (A/s): " + str(particle.velocity))
