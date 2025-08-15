@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt
 
-disp.initialise_data(10)
+disp.initialise_data(15)
 
 fig, ax = plt.subplots()
 

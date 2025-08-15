@@ -10,7 +10,7 @@ delt_t = 0.1 #change in time (seconds)
 #radius = 3 #(angstroms(A))
 
 sigma = 2 #(angstroms(A))
-epsilon = 4.98*10**(-23) #Joules
+epsilon = 4.98*10**(-26) #Joules
 
 """Particle Info Dict Format: "Element Symbol": (mass(kg),... )"""
 
