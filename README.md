@@ -20,9 +20,10 @@ Above: iterations of program with 5, 10, and 15 particles. Particles had mass of
 ### Particles.py
 Contains Particle class and functions for updating of particle positions/velocities/accleration.
 
-Particle mass (in kg) can be changed to emulate specific elements by changing *self.mass* in the Particles class. This should make the repulsive/attractive effects more characteristic to specific elements.
+Particle mass (in kg) can be changed to emulate specific elements. This should make the repulsive/attractive effects more characteristic to specific elements.
 
-The variables epsilon and sigma used in the Lennard-Jones potential calculation can also be changed.
+Mass and the Lennard-Jones constants epsilon and sigma can be changed/set up:
+- a larger mass will results in a reduced velocity
 - a larger epsilon with result in larger 'forces' of attraction between particles
 - a larger sigma value increases the distance at which repulsive/attractive forces will affect particles (particles will repel eachother at further distances)
 
@@ -38,12 +39,14 @@ Possibly useful printing functions are specified below:
 **print_velocities()** - prints particles last Velocities values along the x and y axes as a tuple (Angstroms per 0.1 seconds)
 
 ### Simulator.py
-Used to run program.
+Used to run program.  
+
+The set up simulation is intended to model hydrogen particles (mass = 1.67x10<sup>-27</sup>, sigma = 2, epsilon = 4.98x10<sup>-26</sup>).
 
 ## Running Program
-To initialise the program (initialisation) and specify the number of particles desired:
+To initialise the program (initialisation) and specify the number of particles desired, the particle's mass (kg), the particle's sigma value (Å) and the particle's epsilon value (J):
 ```
-Display.initialise_data(int number of particles wanted)
+Display.initialise_data(no. particles, mass, sigma, epsilon)
 ```
 To run program, after intialisation, fig/ax can be defined, the run() function can be called, and FuncAnimation used to create the pop-up as below:
 ```
