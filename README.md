@@ -9,6 +9,16 @@ $V(r) = 4ε[(σ/r)^{12} - (σ/r)^6]$
 $F(r) = dV/dr = ε[2(σ^{12}/r^{13}) - (σ^6/r^7)]$
 </p>
 
+<!--Kinetic energy (KE) and Pressure (P) are found using the following formulae:
+<p align="center">
+$KE = (1/2)mv^{2}$ (${Kg(Å/s)^{2}}$) 
+</p>
+<p align="center">
+$KE = (3/2)kT$ (${Kg(Å/s)^{2}}$) 
+</p>
+<p align="center"> 
+$P = force/area$ (${N/Å^{2}}$)
+</p>-->
 5 particles|10 particles|15 particles
 --|--|--
 ![](https://github.com/EvaWXHenderson/Particles/blob/main/readme%20-%20material/Screen%20Recording%202025-08-15%20at%2017.08.51.gif)|![](https://github.com/EvaWXHenderson/Particles/blob/main/readme%20-%20material/B0C7FB56-5DD5-49C5-98AE-70AC33EA50FC.gif)|![](https://github.com/EvaWXHenderson/Particles/blob/main/readme%20-%20material/8B1F33E0-E6ED-4660-A8FB-7937B63FF80E.gif)
@@ -32,11 +42,11 @@ Contains functions and info for the display of information/movement of particles
 
 
 Possibly useful printing functions are specified below:    
-**print_positions()** - prints particles last position as coordinates    
-**print_forces()** - prints particles last force values along the x and y axes as a tuple (Newtons)    
-**print_acceleration()** - prints particles last acceleration values along the x and y axes as a tuple (Newtons per Kg)    
-**print_potential()** - prints particles last Lennard-Jones Potential (V(x)) values along the x and y axes as a tuple (Joules)    
-**print_velocities()** - prints particles last Velocities values along the x and y axes as a tuple (Angstroms per 0.1 seconds)
+- **print_positions()** - prints particles last position as coordinates    
+- **print_forces()** - prints particles last force values along the x and y axes as a tuple (Newtons)    
+- **print_acceleration()** - prints particles last acceleration values along the x and y axes as a tuple (Newtons per Kg)    
+- **print_potential()** - prints particles last Lennard-Jones Potential (V(x)) values along the x and y axes as a tuple (Joules)    
+- **print_velocities()** - prints particles last Velocities values along the x and y axes as a tuple (Angstroms per 0.1 seconds)
 
 ### Simulator.py
 Used to run program.  
