@@ -9,7 +9,14 @@ $V(r) = 4ε[(σ/r)^{12} - (σ/r)^6]$
 $F(r) = dV/dr = ε[2(σ^{12}/r^{13}) - (σ^6/r^7)]$
 </p>
 
-<!--Kinetic energy (KE) and Pressure (P) are found using the following formulae:
+5 particles|10 particles|15 particles
+--|--|--
+![](https://github.com/EvaWXHenderson/Particles/blob/main/readme%20-%20material/Screen%20Recording%202025-08-15%20at%2017.08.51.gif)|![](https://github.com/EvaWXHenderson/Particles/blob/main/readme%20-%20material/B0C7FB56-5DD5-49C5-98AE-70AC33EA50FC.gif)|![](https://github.com/EvaWXHenderson/Particles/blob/main/readme%20-%20material/8B1F33E0-E6ED-4660-A8FB-7937B63FF80E.gif)
+<p align="center">
+Above: iterations of program with 5, 10, and 15 particles. Particles had mass of 1.67x10<sup>-27</sup> kg (mass of hydrogen atom), with values sigma = 2, epsilon = 4.98x10<sup>-26</sup>.
+</p>
+
+Currently working on finding and displaying the system's kinetic energy and pressure using the following formulae:
 <p align="center">
 $KE = (1/2)mv^{2}$ (${Kg(Å/s)^{2}}$) 
 </p>
@@ -18,12 +25,6 @@ $KE = (3/2)kT$ (${Kg(Å/s)^{2}}$)
 </p>
 <p align="center"> 
 $P = force/area$ (${N/Å^{2}}$)
-</p>-->
-5 particles|10 particles|15 particles
---|--|--
-![](https://github.com/EvaWXHenderson/Particles/blob/main/readme%20-%20material/Screen%20Recording%202025-08-15%20at%2017.08.51.gif)|![](https://github.com/EvaWXHenderson/Particles/blob/main/readme%20-%20material/B0C7FB56-5DD5-49C5-98AE-70AC33EA50FC.gif)|![](https://github.com/EvaWXHenderson/Particles/blob/main/readme%20-%20material/8B1F33E0-E6ED-4660-A8FB-7937B63FF80E.gif)
-<p align="center">
-Above: iterations of program with 5, 10, and 15 particles. Particles had mass of 1.67x10<sup>-27</sup> kg (mass of hydrogen atom), with values sigma = 2, epsilon = 4.98x10<sup>-26</sup>.
 </p>
 
 ## Files
@@ -82,7 +83,7 @@ plt.show()
 *Note: recommended time interval (delt_t) is 0.1, with an interval paratermeter of 10*
 
 ## Decceleration
-Currently the only complete section of the project. Contains files for running a simulation where particles are made to bounce and decelerate with gravity.
+Contains files for running a simulation where particles are made to bounce and decelerate with gravity, particles act much more like tennis balls and do not interact with one another (no attraction/repulsion).
 
 https://github.com/user-attachments/assets/603c88bb-adf8-4a6b-852e-31ebded9f473
 
