@@ -1,5 +1,5 @@
-import matplotlib.pyplot as plt
 import Particles as pcl
+import math
 
 x = []
 y = []
@@ -15,8 +15,8 @@ def clear():
     x = []
     y = []
 
-def initialise_data(particles = 15):
-    pcl.create_particles(particles)
+def initialise_data(particles = 15, mass = 1.67*10**(-27), sigma = 2, epsilon = 4.98*10**(-26)):
+    pcl.create_particles(mass, sigma, epsilon, particles)
 
     coord_update()
 
@@ -43,3 +43,9 @@ def print_potential():
 def print_velocities():
     for particle in pcl.particles:
         print("Velocities (A/s): " + str(particle.velocity))
+
+def print_kinetic_energy():
+    print("Kinetic energy: " + str(pcl.K_energy_sys) + " (Kg(A/s)^2)") #goal to be in joules (Kg(m/s)^2)
+
+def print_temp_sys():
+    print("Temperature: " + str(pcl.T_sys) + " (K)") #currently not accurate

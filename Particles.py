@@ -1,32 +1,31 @@
 import random as rand
 import math
-import Display as disp
 
 particles = [] #list of particle objects
 p_positions = [] #list of particle positions - updated using position_update() - needs cleared before calling function
 p_velocities = [] #list of particle velocities - updated using velocity_update() - needs cleared before calling function
 
 delt_t = 0.1 #change in time (seconds)
-#radius = 3 #(angstroms(A))
+K_energy_sys = 0 # (Kg(A/s)^2) - goal to be in joules (Kg(m/s)^2)
+T_sys = 0 #Kelvin - currently not accurate
+total_force_sys = 0 #Newtons
+pressure = 0 
+#radius = 3 #(angstroms) #for collisions with other particles acting more as objects/balls where repuslions and attractions not considered
 
-sigma = 2 #(angstroms(A))
-epsilon = 4.98*10**(-26) #Joules
-
-"""Particle Info Dict Format: "Element Symbol": (mass(kg),... )"""
+cycle = 0
 
 Particle_info = {"H" : [1.67*10**(-27)],
                  "He" : [6.646*10**(-27)],
                  "Cl" : [10**(-25)]}
-
 class Particle:
-    def __init__(self):
+    def __init__(self, mass, sigma, epsilon):
         position_x = rand.randint(1, 100)
         position_y = rand.randint(1, 100)
         self.position = (position_x, position_y)
 
         p_positions.append(self.position)
 
-        self.mass = 1.67*10**(-27) #mass hydrogen (kg)
+        self.mass = mass #mass hydrogen (kg)
         self.velocity = (rand.randint(-4, 4), rand.randint(-4, 4)) #velocity (A/delt_t)
 
         p_velocities.append(self.velocity)
@@ -38,11 +37,17 @@ class Particle:
         self.F_x = 0
         self.F_y = 0
         self.forces = [] #Newtons
+        self.total_force_p = 0
         self.forces_print = (0,0) #only needed if trying to check force values
         self.accelerations_print = [] #only needed if trying to check all acceleration values
 
         self.distances_x = []
         self.distances_y = []
+
+        self.sigma = sigma #(angstroms(A))
+        self.epsilon = epsilon #Joules
+
+        self.K_energy = 0
 
         particles.append(self)
 
@@ -88,24 +93,21 @@ class Particle:
             self.position = (self.position[0], 0)
             self.velocity = new_velocity_y           
 
-    def lj_potential(self, e = epsilon, s = sigma):
+    def lj_potential(self):
         for particle2 in particles:
             if self != particle2:
                 dx = self.position[0] - particle2.position[0]
                 dy = self.position[1] - particle2.position[1]
     
-        V_x = 4*e*(((s/dx)**12) - ((s/dx)**6))
-        V_y = 4*e*(((s/dy)**12) - ((s/dy)**6))
+        V_x = 4*self.epsilon*(((self.sigma/dx)**12) - ((self.sigma/dx)**6))
+        V_y = 4*self.epsilon*(((self.sigma/dy)**12) - ((self.sigma/dy)**6))
 
         self.potentials = (V_x, V_y)
 
-    def lj_force(self, e = epsilon, s = sigma):
+    def lj_force(self):
         global particles, radius
         
         self.forces = []
-
-
-
         for particle2 in particles:
             if self != particle2:
 
@@ -115,14 +117,14 @@ class Particle:
                 if dx == 0:
                     F_x = 0
                 else:
-                    F_x = e*(2*(s**12/dx**13) - (s**6/dx**7)) # Lennard-Jones potential V(r)
+                    F_x = self.epsilon*(2*(self.sigma**12/dx**13) - (self.sigma**6/dx**7)) # Lennard-Jones potential V(r)
                 
                 if dy == 0:
                     F_y = 0
                 else:
-                    F_y = e*(2*(s**12/dy**13) - (s**6/dy**7))
+                    F_y = self.epsilon*(2*(self.sigma**12/dy**13) - (self.sigma**6/dy**7))
                 
-                self.forces.append((F_x, F_y))
+                self.forces.append((F_x, F_y)) #newtons
 
         self.F_x = 0
         self.F_y = 0
@@ -150,8 +152,7 @@ class Particle:
             self.acceleration = (a_x, -10)
 
         #self.accelerations.append(self.acceleration_print) #only needed if trying to check all acceleration values
-        
-
+       
     def change_velocity(self, t = delt_t):
         new_velocity_x = self.velocity[0] + (self.acceleration[0] * t)
         new_velocity_y = self.velocity[1] + (self.acceleration[1] * t)
@@ -169,16 +170,62 @@ class Particle:
         self.velocity = (new_velocity_x, new_velocity_y) # velocity in A/0.1seconds
         p_velocities.append(self.velocity)
 
+    def kinetic_energy_p(self):
+        speed = math.sqrt((self.velocity[0]*10)**2 + (self.velocity[1]*10)**2) #velocities multiplied by 10 to get into angstroms per second?
+
+        self.K_energy = (1/2)*(self.mass)*(speed**2)
+
+"""    def force_p(self):
+        self.total_force_p = math.sqrt((self.F_x**2) + (self.F_y**2))
+        print("total_force_p" + str(self.total_force_p)) #Newtons"""
 
 
 
 
-def create_particles(number = 15):
+
+def create_particles(mass_p, sigma_p, epsilon_p, number = 15):
     for particles in range(number):
-        Particle()
+        Particle(mass_p, sigma_p, epsilon_p)
+
+def kinetic_energy_sys():
+    global K_energy_sys 
+
+    K_energy_sys = 0
+
+    for particle in particles:
+        K_energy_sys += particle.K_energy #goal to be in joules (Kg(m/s)^2)
+
+def temp_sys():
+    global T_sys
+
+    T_sys = ((2/3)*(K_energy_sys))/(1.38*10**(-23)) #currently not accurate
+
+"""def force_sys():
+    global total_force_sys
+
+    for particle in particles:
+        total_force_sys += particle.total_force_p
+    print("total_force_sys: " + str(total_force_sys))
+
+def pressure_sys(cycles):
+    global pressure, total_force_sys, cycle
+
+    average_force = (total_force_sys/cycles)
+    #print("average_force: " + str(average_force))
+
+    pressure = (average_force)/(100**(2)) #N/A^2
+    #print("pressure: " + str(pressure))
+    total_force_sys = 0 #N
+
+    if pressure > 1000:
+        print("Pressure exceeds 1000 N/A^2 with: " + str(pressure) + " on cycle: " + str(cycle))"""
+
+    
 
 def actions():
-    global p_positions, p_velocities, particles
+    global p_positions, p_velocities, particles, cycle
+
+    cycle += 1
 
     p_positions = []
     p_velocities = []
@@ -196,3 +243,15 @@ def actions():
     for particle in particles:
         #particle.collision_particle() - SHOULDN'T BE NEEDED BECAUSE OF LENNARD-JONES POTENTIAL CONSIDERATION??? - SHOULD HAVE REPULSION ALREADY AT 3A???
         particle.change_velocity() #calculates new velocities based on the updated acceleration
+
+    if cycle%10 == 0:
+        for particle in particles:
+            particle.kinetic_energy_p()
+            #particle.force_p()           
+        
+        kinetic_energy_sys()
+        temp_sys()
+        #force_sys()
+        #pressure_sys(1)
+
+        
